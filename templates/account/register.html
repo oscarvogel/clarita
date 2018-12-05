@@ -1,0 +1,33 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-12">
+            <form id="register-form" action="." method="post" role="form" >{% csrf_token %}
+                <div class="form-group">
+                    <input type="text" name="{{user_form.username.name}}" id="username" tabindex="1" class="form-control" placeholder="Usuario" value="">
+                </div>
+                <div class="form-group">
+                    <input type="email" name="{{user_form.email.name}}" id="email" tabindex="1" class="form-control" placeholder="Direccion de Email" value="">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="{{user_form.password.name}}" id="password" tabindex="2" class="form-control" placeholder="Contraseña">
+                </div>
+                <div class="form-group">
+                    <input type="password" name="{{user_form.password2.name}}" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirmar Contraseña">
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-sm-6 col-sm-offset-3">
+                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Registrarse ahora">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

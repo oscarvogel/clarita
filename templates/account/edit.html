@@ -1,0 +1,30 @@
+{% extends "base/base.html" %}
+{% block title %}Edit your account{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <h1>Editar su cuenta</h1>
+        <p>Puede editar sus datos en el siguiente formulario:</p>
+        <form action="." method="post" enctype="multipart/form-data">
+            <div class="form-group">
+                <input type="text" name="{{user_form.first_name.name}}" id="{{user_form.first_name.name}}" tabindex="1" class="form-control" placeholder="Nombre" value="{{user_form.first_name.value}}">
+            </div>
+            <div class="form-group">
+                <input type="text" name="{{user_form.last_name.name}}" id="{{user_form.last_name.name}}" tabindex="1" class="form-control" placeholder="Apellido" value="{{user_form.last_name.value}}">
+            </div>
+            <div class="form-group">
+                <input type="text" name="{{user_form.email.name}}" id="{{user_form.email.name}}" tabindex="1" class="form-control" placeholder="Email" value="{{user_form.email.value}}">
+            </div>
+
+            <div class="form-group">
+                <input type="text" name="{{profile_form.nacimiento.name}}" id="{{profile_form.nacimiento.name}}" tabindex="1" class="form-control" placeholder="Fecha Nacimiento" value="{{profile_form.nacimiento.value|date:'d/m/Y'}}">
+            </div>
+            <div class="form-group">
+                <input type="file" name="{{profile_form.nacimiento.foto}}" id="{{profile_form.nacimiento.foto}}" tabindex="1" class="form-control" placeholder="Foto" value="{{profile_form.nacimiento.foto}}">
+            </div>
+            {% csrf_token %}
+        <p><input type="submit" value="Guardar cambios" class="btn"></p>
+        </form>
+    </div>
+</div>
+{% endblock %}

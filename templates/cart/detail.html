@@ -1,0 +1,67 @@
+{% extends "base/base.html" %}
+{% load thumbnail %}
+{% load static %}
+{% block title %}
+    Carrito de compra
+{% endblock %}
+{% block content %}
+<div class="cart_section">
+    <div class="container">
+        <div class="row">
+
+        <h1>Su carrito de compra</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Remover</th>
+                    <th>Unitario</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in cart %}
+                {% with product=item.product %}
+                    <tr>
+                        <td><a href="{{ product.get_absolute_url }}">
+                            {% if product.imagen %}
+                                {% thumbnail product.imagen "50x50" as im%}
+                                    <img class="img-thumbnail" src="{{im.url}}">
+                                {% endthumbnail %}
+                            {% else %}
+                                <img class="img-thumbnail" src="http://placehold.it/50x50">
+                            {% endif %}
+                        </a>
+                        </td>
+                        <td>{{ product.nombre }}</td>
+                        <td>
+                            <form action="{% url 'cart:cart_add' product.id %}" method="post" class="form-inline">
+                                {{ item.update_quantity_form.quantity }}
+                                {{ item.update_quantity_form.update }}
+                                <input class="btn btn-success" type="submit" value="Actualizar">
+                                {% csrf_token %}
+                            </form>
+                        </td>
+                        <td><a class="btn btn-danger" href="{% url 'cart:cart_remove' product.id%}">Quitar</a></td>
+                        <td class="table-info">${{ item.price }}</td>
+                        <td class="table-success">${{ item.total_price }}</td>
+                    </tr>
+                {% endwith %}
+            {% endfor %}
+            <tr class="total">
+                <td>Total</td>
+                <td colspan="4"></td>
+                <td class="num">${{ cart.get_total_price }}</td>
+            </tr>
+            </tbody>
+        </table>
+        <p class="text-right">
+            <a href="" class="btn btn-primary">Continuar comprando</a>
+            <a href="{% url 'orders:order_create' %}" class="btn btn-success">Finalizar compra</a>
+        </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base/base.html" %}
+
+{% block content %}
+
+<div class="container login-container">
+    <div class="row">
+        <div class="col-md-6 login-form-1">
+            <h3>Ingresar</h3>
+            <form action="." method="post">{% csrf_token %}
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Su usuario *" value="" name="{{form.username.name}}"/>
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-control" placeholder="Su contraseña *" value="" name="{{form.password.name}}"/>
+                </div>
+                <div class="form-group">
+                   <button class="btn btn-lg btn-primary btn-block text-uppercase" type="submit">Ingresar</button>
+                </div>
+                <div class="form-group">
+                    <a href="{% url 'password_reset' %}">Olvidaste tu contraseña?</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

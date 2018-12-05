@@ -1,0 +1,125 @@
+{% load ecommerce_tags %}
+
+<!-- HEADER -->
+<header>
+    <!-- TOP HEADER -->
+    <div id="top-header">
+        <div class="container">
+            <ul class="header-links pull-left">
+                <li><a href="tel:{{context.telefono_empresa}}"><i class="fa fa-phone"></i> {% telefono_empresa %}</a></li>
+                <li><a href="mailto:{{context.email_empresa}}"><i class="fa fa-envelope-o"></i> {% email_empresa %}</a></li>
+                <li><a href="https://goo.gl/maps/StjVtSscGAA2"><i class="fa fa-map-marker"></i> {% domicilio_empresa %}</a></li>
+            </ul>
+            <ul class="header-links pull-right">
+                <li><a href="#"><i class="fa fa-dollar"></i> ARS</a></li>
+                <li><a href="{% url 'cuenta:dashboard' %}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- /TOP HEADER -->
+
+    <!-- MAIN HEADER -->
+    <div id="header">
+        <!-- container -->
+        <div class="container">
+            <!-- row -->
+            <div class="row">
+                <!-- LOGO -->
+                <div class="col-md-3">
+                    <div class="header-logo">
+                        <a href="#" class="logo">
+                            <img src="{{MEDIA_URL}}img/Clarita.png" alt="">
+                        </a>
+                    </div>
+                </div>
+                <!-- /LOGO -->
+
+                <!-- SEARCH BAR -->
+                <div class="col-md-6">
+                    <div class="header-search">
+                        <form action="{% url 'shop:lista_productos' %}" method="post">{% csrf_token %}
+                            <select class="input-select" name="categoria">
+                                <option value="0">Categorias</option>
+                                {% for c in categorias %}
+                                    <option value="{{c.id}}">{{c.nombre|lower|capfirst|slice:":10"}}</option>
+                                {% endfor %}
+                            </select>
+                            <input class="input" placeholder="Hace tu busqueda" name="busqueda">
+                            <button type="submit" class="search-btn">Buscar</button>
+                        </form>
+                    </div>
+                </div>
+                <!-- /SEARCH BAR -->
+
+                <!-- ACCOUNT -->
+                <div class="col-md-3 clearfix">
+                    <div class="header-ctn">
+                        <!-- Wishlist -->
+                        <div>
+                            <a href="#">
+                                <i class="fa fa-heart-o"></i>
+                                <span>Favoritos</span>
+                                <div class="qty">{% total_favoritos %}</div>
+                            </a>
+                        </div>
+                        <!-- /Wishlist -->
+
+                        <!-- Cart -->
+                        <div class="dropdown">
+                            {% with total_items=cart|length %}
+                            <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                <i class="fa fa-shopping-cart"></i>
+                                <span>Tu carrito</span>
+                                <div class="qty">{{total_items}}</div>
+                            </a>
+                            <div class="cart-dropdown">
+                                <div class="cart-list">
+                                    <div class="product-widget">
+                                        {% for c in cart %}
+                                            <div class="product-img">
+                                                {%if c.product.imagen%}
+                                                    <img src="{{d.imagen.url}}" alt="{{d.product.nombre}}">
+                                                {%else%}
+                                                    <img src="http://placehold.it/150x150" alt="{{d.product.nombre}}">
+                                                {%endif%}
+                                            </div>
+                                            <div class="product-body">
+                                                <h3 class="product-name"><a href="#">{{c.product}}</a></h3>
+                                                <h4 class="product-price"><span class="qty"></span>${{c.total_price}}</h4>
+                                            </div>
+                                            <button class="delete"><i class="fa fa-close"></i></button>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="cart-summary">
+                                    <small>{{total_items}} Item(s)</small>
+                                    <h5>SUBTOTAL: ${{cart.get_total_price}}</h5>
+                                </div>
+                                <div class="cart-btns">
+                                    <a href="{% url 'cart:cart_detail' %}">Ver Carrito</a>
+                                    <a href="#">Finalizar<i class="fa fa-arrow-circle-right"></i></a>
+                                </div>
+                            </div>
+                            {%endwith%}
+                        </div>
+                        <!-- /Cart -->
+
+                        <!-- Menu Toogle -->
+                        <div class="menu-toggle">
+                            <a href="#">
+                                <i class="fa fa-bars"></i>
+                                <span>Menu</span>
+                            </a>
+                        </div>
+                        <!-- /Menu Toogle -->
+                    </div>
+                </div>
+                <!-- /ACCOUNT -->
+            </div>
+            <!-- row -->
+        </div>
+        <!-- container -->
+    </div>
+    <!-- /MAIN HEADER -->
+</header>
+<!-- /HEADER -->
