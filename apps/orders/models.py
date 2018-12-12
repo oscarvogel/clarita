@@ -16,7 +16,7 @@ class Order(models.Model):
     ciudad = models.CharField(max_length=100, default='')
     creado = models.DateTimeField(auto_now_add=True)
     telefono = models.CharField(max_length=100, default='')
-    nota = models.TextField(default='')
+    nota = models.TextField(default='', blank=True)
     actualizado = models.DateTimeField(auto_now=True)
     pagado = models.BooleanField(default=False)
 

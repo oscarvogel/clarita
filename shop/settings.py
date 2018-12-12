@@ -145,8 +145,19 @@ TELEFONO_EMPRESA = '+54 3743 667526'
 EMAIL_EMPRESA = 'ventas@claritadigital.com.ar'
 DOMICILIO_EMPRESA = 'Av. 9 de Julio - Pto Rico - Misiones'
 
-LOGIN_REDIRECT_URL = reverse_lazy('dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('cuenta:dashboard')
 LOGIN_URL = reverse_lazy('login')
 LOGOUT_URL = reverse_lazy('logout')
 
 CART_SESSION_ID = 'cart'
+
+EMAIL_HOST = 'mail.ferreteriaavenida.com.ar'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = "info@ferreteriaavenida.com.ar"
+EMAIL_HOST_PASSWORD = "Fasa0298"
+EMAIL_USE_TLS = False
+ADMINS = [('Oscar Vogel', 'oscar@ferreteriaavenida.com.ar')]
+
+REDIS_HOST = '192.168.0.200'
+REDIS_PORT = 6379
+REDIS_DB = 0

@@ -24,7 +24,7 @@ from shop import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     url(r'^cart/', include(('apps.cart.urls', 'cart'), namespace='cart'), name='cart'),
-    url(r'^cuenta/', include(('apps.account.urls', 'cuenta')), name='cuenta'),
+    url(r'^cuenta/', include(('apps.account.urls', 'cuenta'), namespace='cuenta'), name='cuenta'),
     url(r'^accounts/', include('django.contrib.auth.urls'), name='accounts'),
     path('orders/', include('apps.orders.urls', namespace='orders')),
     url(r'^', include(('apps.ecommerce.urls','shop'), namespace='shop'), name='shop'),

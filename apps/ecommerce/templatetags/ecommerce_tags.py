@@ -41,5 +41,8 @@ def categorias_principales():
 @register.simple_tag(takes_context=True)
 def total_favoritos(context):
     user = context['user']
-    fa = Favoritos.objects.filter(usuario=user).count()
+    if user:
+        fa = Favoritos.objects.filter(usuario=user).count()
+    else:
+        fa = 0
     return fa

@@ -59,7 +59,11 @@
                             <a href="#">
                                 <i class="fa fa-heart-o"></i>
                                 <span>Favoritos</span>
-                                <div class="qty">{% total_favoritos %}</div>
+                                {% if total_favoritos %}
+                                    <div class="qty">{% total_favoritos %}</div>
+                                {% else %}
+                                    <div class="qty">0</div>
+                                {% endif %}
                             </a>
                         </div>
                         <!-- /Wishlist -->
@@ -97,7 +101,7 @@
                                 </div>
                                 <div class="cart-btns">
                                     <a href="{% url 'cart:cart_detail' %}">Ver Carrito</a>
-                                    <a href="#">Finalizar<i class="fa fa-arrow-circle-right"></i></a>
+                                    <a href="{% url 'orders:order_create' %}">Finalizar<i class="fa fa-arrow-circle-right"></i></a>
                                 </div>
                             </div>
                             {%endwith%}

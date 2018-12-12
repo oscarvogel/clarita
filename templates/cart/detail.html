@@ -8,8 +8,12 @@
 <div class="cart_section">
     <div class="container">
         <div class="row">
-
         <h1>Su carrito de compra</h1>
+        <p class="text-right">
+            <a href="{% url 'shop:lista_productos' %}" class="btn btn-primary">Continuar comprando</a>
+            <a href="{% url 'orders:order_create' %}" class="btn btn-success">Finalizar compra</a>
+        </p>
+
         <table class="table">
             <thead>
                 <tr>
@@ -57,10 +61,38 @@
             </tr>
             </tbody>
         </table>
-        <p class="text-right">
-            <a href="" class="btn btn-primary">Continuar comprando</a>
-            <a href="{% url 'orders:order_create' %}" class="btn btn-success">Finalizar compra</a>
-        </p>
+        <div class="col-md-12">
+            <div class="row">
+                <h6>Quienes compraron tambien compraron:</h6>
+                <!-- Productos recomendados -->
+                {% for p in productos_recomendados%}
+                <!-- product -->
+                <div class="col-md-3 col-xs-6">
+                    <div class="product">
+                        <a href="{{p.get_absolute_url}}">
+                            <div class="product-img">
+                                {% if p.imagen %}
+                                    <img src="{{p.imagen.url}}" alt="{{p.nombre}}">
+                                {% else %}
+                                    <img src="http://placehold.it/250x250" alt="{{p.nombre}}">
+                                {% endif %}
+                            </div>
+                        </a>
+                        <div class="product-body">
+                            <p class="product-category"><a href="{{p.categoria.get_absolute_url}}">{{p.categoria.nombre}}</a></p>
+                            <h3 class="product-name"><a href="#">{{p.nombre}}</a></h3>
+                            <h4 class="product-price">${{p.preciopub}}</h4>
+                        </div>
+                        <div class="add-to-cart">
+                            <a href="{{p.get_absolute_url}}" class="btn add-to-cart-btn"><i class="fa fa-shopping-cart"></i>Detalle</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- /product -->
+                {%endfor%}
+                <!-- Products tab & slick -->
+            </div>
+        </div>
         </div>
     </div>
 </div>

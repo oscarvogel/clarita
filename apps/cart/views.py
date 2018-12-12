@@ -6,6 +6,7 @@ from django.views.decorators.http import require_POST
 from apps.cart.cart import Cart
 from apps.cart.forms import CartAddProductForm
 from apps.ecommerce.models import Producto
+from apps.ecommerce.recommender import Recommender
 
 
 @require_POST
@@ -33,6 +34,11 @@ def cart_detail(request):
         item['update_quantity_form'] = CartAddProductForm(
             initial={'quantity': item['quantity'],
                      'update': True})
+    r = Recommender()
+    cart_products = [item['product'] for item in cart]
+    productos_recomendados = r.productos_sugeridos_para(cart_products,
+                                                  max_results=4)
     return render(request, 'cart/detail.html', {
-        'cart': cart
+        'cart': cart,
+        'productos_recomendados': productos_recomendados
     })
