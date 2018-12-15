@@ -1,3 +1,5 @@
+import datetime
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -60,3 +62,16 @@ class Favoritos(models.Model):
 
     def __str__(self):
         return self.producto.nombre
+
+class Historial(models.Model):
+
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    fecha = models.DateTimeField(default=datetime.datetime.now())
+
+    class Meta:
+        db_table = "Historial"
+        ordering = ('-fecha',)
+
+    def __str__(self):
+        return '{}'.format(self.id)

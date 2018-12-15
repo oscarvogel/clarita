@@ -3,7 +3,7 @@ from django.contrib import admin
 # Register your models here.
 from import_export.admin import ImportExportModelAdmin
 
-from apps.ecommerce.models import Categoria, Producto, Favoritos
+from apps.ecommerce.models import Categoria, Producto, Favoritos, Historial
 from apps.ecommerce.resources import ProductoResource
 
 
@@ -32,3 +32,8 @@ class FavoritosAdmin(admin.ModelAdmin):
     list_editable = ['activo','producto']
     search_fields = ['producto__nombre']
 admin.site.register(Favoritos, FavoritosAdmin)
+
+class HistorialAdmin(admin.ModelAdmin):
+    list_display = ['producto','usuario','fecha']
+    search_fields = ['usuario',]
+admin.site.register(Historial, HistorialAdmin)

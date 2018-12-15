@@ -6,6 +6,8 @@ from django.urls import include
 
 from apps.account import views
 
+app_name = 'accounts'
+
 urlpatterns = [
     #url(r'^login/$', views.login_usuario, name='login'),
     url(r'^$', views.dashboard, name='dashboard'),

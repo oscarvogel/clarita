@@ -16,6 +16,7 @@ class Recommender(object):
 
     def producto_comprados(self, productos):
         producto_ids = [p.id for p in productos]
+        print(producto_ids)
 
         for producto_id in producto_ids:
             for with_id in producto_ids:
