@@ -4,8 +4,8 @@
 {% load i18n static %}
 {% load i18n %}
 {% load thumbnail %}
-{% if destacados %}
-<!-- SECTION DESTACADOS-->
+{% if ofertas %}
+<!-- SECTION OFERTAS-->
 <div class="section">
     <!-- container -->
     <div class="container">
@@ -15,7 +15,7 @@
             <!-- section title -->
             <div class="col-md-12">
                 <div class="section-title">
-                    <h3 class="title">Destacados</h3>
+                    <h3 class="title">Ofertas de la semana</h3>
 
                 </div>
             </div>
@@ -29,7 +29,7 @@
                         <div id="tab1" class="tab-pane active">
                             <div class="products-slick" data-nav="#slick-nav-1">
                                 <!-- product -->
-                                {% for d in destacados %}
+                                {% for d in ofertas %}
                                 <div class="product">
                                     <a href="{{d.get_absolute_url}}">
                                         <div class="product-img">
@@ -68,4 +68,5 @@
     <!-- /container -->
 </div>
 <!-- /SECTION -->
+
 {%endif%}

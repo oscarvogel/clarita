@@ -9,7 +9,7 @@ from apps.orders.models import OrderItem, Order
 
 def order_pdf(obj):
     return mark_safe('<a href="{}">PDF</a>'.format(reverse('orders:admin_order_pdf', args=[obj.id])))
-order_pdf.short_description = 'Ventas'
+order_pdf.short_description = 'Imprimir'
 
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
@@ -17,8 +17,8 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'nombre', 'apellido', 'email', 'direccion', 'codigopostal', 'ciudad', 'pagado',
-        'creado', 'actualizado',]
+    list_display = ['id', order_pdf, 'nombre', 'apellido', 'email', 'direccion', 'codigopostal', 'ciudad', 'pagado',
+        'creado', 'actualizado']
     list_filter = ['pagado', 'creado', 'actualizado']
     raw_id_fields = ['usuario']
     list_editable = ['pagado',]

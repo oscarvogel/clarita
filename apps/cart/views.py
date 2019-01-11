@@ -7,6 +7,7 @@ from apps.cart.cart import Cart
 from apps.cart.forms import CartAddProductForm
 from apps.ecommerce.models import Producto
 from apps.ecommerce.recommender import Recommender
+from shop import settings
 
 
 @require_POST
@@ -34,10 +35,13 @@ def cart_detail(request):
         item['update_quantity_form'] = CartAddProductForm(
             initial={'quantity': item['quantity'],
                      'update': True})
-    r = Recommender()
-    cart_products = [item['product'] for item in cart]
-    productos_recomendados = r.productos_sugeridos_para(cart_products,
+    if settings.USE_REDIS:
+        r = Recommender()
+        cart_products = [item['product'] for item in cart]
+        productos_recomendados = r.productos_sugeridos_para(cart_products,
                                                   max_results=4)
+    else:
+        productos_recomendados = None
     return render(request, 'cart/detail.html', {
         'cart': cart,
         'productos_recomendados': productos_recomendados

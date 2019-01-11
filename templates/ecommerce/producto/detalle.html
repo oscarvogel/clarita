@@ -16,7 +16,11 @@
 						{% if producto.imagen %}
 							<img src="{{producto.imagen.url}}" alt="{{producto.nombre}}">
 						{% else %}
-							<img src="http://placehold.it/500x500" alt="{{producto.nombre}}">
+							{%if producto.url_imagen %}
+								<img src="{{producto.url_imagen}}" alt="{{producto.nombre}}">
+							{%else%}
+								<img src="http://placehold.it/500x500" alt="{{producto.nombre}}">
+							{%endif%}
 						{% endif %}
 					</div>
 
@@ -31,7 +35,11 @@
 						{% if producto.imagen %}
 							<img src="{{producto.imagen.url}}" alt="{{producto.nombre}}">
 						{% else %}
-							<img src="http://placehold.it/150x150" alt="{{producto.nombre}}">
+							{% if producto.url_imagen %}
+								<img src="{{producto.url_imagen}}" alt="{{producto.nombre}}">
+							{% else %}
+								<img src="http://placehold.it/150x150" alt="{{producto.nombre}}">
+							{% endif %}
 						{% endif %}
 					</div>
 				</div>

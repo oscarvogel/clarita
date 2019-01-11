@@ -1,6 +1,7 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -33,8 +34,12 @@ from apps.account.models import Profile
 
 @login_required
 def dashboard(request):
+    profile = Profile.objects.get(usuario=request.user)
+    user = User.objects.get(username=request.user)
     return render(request,'account/dashboard.html',{
-        'section': 'dashboard'
+        'section': 'dashboard',
+        'profile':profile,
+        'user':user
     })
 
 def register(request):
@@ -48,7 +53,7 @@ def register(request):
             # Save the User object
             new_user.save()
             # Create the user profile
-            profile = Profile.objects.create(user=new_user)
+            profile = Profile.objects.create(usuario=new_user)
             return render(request,'account/register_done.html',{
                 'new_user': new_user
             })
@@ -71,9 +76,9 @@ def edit(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
-            messages.success(request, 'Profile updated successfully')
+            messages.success(request, 'Datos actualizados')
         else:
-            messages.error(request, 'Error updating your profile')
+            messages.error(request, 'Error actualizando sus datos')
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = ProfileEditForm(instance=request.user.profile)

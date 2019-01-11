@@ -5,6 +5,7 @@ from django.db import models
 
 # Create your models here.
 from django.urls import reverse
+from django_random_queryset import RandomManager
 
 
 class Categoria(models.Model):
@@ -26,12 +27,14 @@ class Categoria(models.Model):
                        args=[self.slug])
 
 class Producto(models.Model):
+    objects = RandomManager()
 
     categoria = models.ForeignKey(Categoria, related_name='productos', on_delete=models.CASCADE)
     nombre = models.CharField(max_length=200, db_index=True)
     slug = models.SlugField(max_length=200, db_index=True)
     unidad = models.CharField(max_length=8, default='')
     imagen = models.ImageField(upload_to='productos/%Y/%m/%d', blank=True)
+    url_imagen = models.CharField(max_length=200, default='', blank=True)
     descripcion = models.TextField(blank=True)
     preciopub = models.DecimalField(max_digits=12, decimal_places=2)
     stock = models.PositiveIntegerField()
@@ -39,6 +42,7 @@ class Producto(models.Model):
     creado = models.DateTimeField(auto_now_add=True)
     modificado = models.DateTimeField(auto_now=True)
     destacado = models.BooleanField(blank=True, default=False)
+    descuento = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     class Meta:
         ordering = ('nombre',)
@@ -67,7 +71,7 @@ class Historial(models.Model):
 
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha = models.DateTimeField(default=datetime.datetime.now())
+    fecha = models.DateTimeField(auto_now=True)
 
     class Meta:
         db_table = "Historial"
@@ -75,3 +79,29 @@ class Historial(models.Model):
 
     def __str__(self):
         return '{}'.format(self.id)
+
+
+class Paramsist(models.Model):
+
+    clave = models.CharField(max_length=30, primary_key=True, db_column='clave')
+    valor = models.CharField(max_length=100)
+    detalle = models.CharField(max_length=200)
+
+    class Meta:
+        db_table = 'paramsist'
+        ordering = ('clave',)
+
+    def __str__(self):
+        return '{}'.format(self.clave)
+
+
+class LocalidadEntrega(models.Model):
+
+    nombre = models.CharField(max_length=30)
+    montominimoflete = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+
+    class Meta:
+        ordering = ('nombre',)
+
+    def __str__(self):
+        return '{}'.format(self.nombre)

@@ -46,3 +46,8 @@ def total_favoritos(context):
     else:
         fa = 0
     return fa
+
+@register.filter(name='descuento')
+def descuento(monto, porcentaje):
+    print(monto, porcentaje)
+    return round(monto - monto * porcentaje / 100, 2)

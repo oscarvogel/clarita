@@ -25,13 +25,17 @@
                                         {% if p.producto.imagen %}
                                             <img src="{{p.producto.imagen.url}}" alt="{{p.producto.nombre}}">
                                         {% else %}
-                                            <img src="http://placehold.it/250x250" alt="{{p.producto.nombre}}">
+                                            {% if p.producto.url_imagen %}
+                                                <img src="{{p.producto.url_imagen}}" alt="{{p.nombre}}">
+                                            {% else %}
+											    <img src="http://placehold.it/250x250" alt="{{p.nombre}}">
+										    {%endif%}
                                         {% endif %}
                                     </div>
                                 </a>
                                 <div class="product-body">
                                     <p class="product-category"><a href="{{p.producto.categoria.get_absolute_url}}">{{p.producto.categoria.nombre}}</a></p>
-                                    <h3 class="product-name"><a href="#">{{p.producto.nombre}}</a></h3>
+                                    <h3 class="product-name"><a href="{{p.producto.get_absolute_url}}">{{p.producto.nombre}}</a></h3>
                                     <h4 class="product-price">${{p.producto.preciopub}}</h4>
                                 </div>
                                 <div class="add-to-cart">

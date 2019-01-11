@@ -2,15 +2,17 @@ import datetime
 
 from django.contrib import messages
 from django.core.mail import send_mail
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 # Create your views here.
 from django.template.loader import render_to_string
 
 from apps.cart.cart import Cart
 from apps.ecommerce.recommender import Recommender
+from apps.ecommerce.render import Render
 from apps.orders.forms import OrderCreateForm
 from apps.orders.models import OrderItem, Order
+from shop import settings
 
 
 def order_create(request):
@@ -31,14 +33,18 @@ def order_create(request):
                 OrderItem.objects.create(orden=order,producto=item['product'],precio=item['price'],
                     cantidad=item['quantity'])
                 productos_comp.append(item['product'])
-            r = Recommender()
-            r.producto_comprados(productos_comp)
+            if settings.USE_REDIS:
+                r = Recommender()
+                r.producto_comprados(productos_comp)
+
             # clear the cart
             send_mail(
                 'Se ha producido una venta',
-                'Un cliente ha comprado algo en la web.',
+                'Un cliente ha comprado algo en la web podes modificarla aca {0}admin/orders/order/{1}/change/'.format(
+                    settings.BASE_URL, order.id
+                ),
                 'info@ferreteriaavenida.com.ar',
-                ['oscar@ferreteriaavenida.com.ar'],
+                settings.ADMINS,
                 fail_silently=False,
             )
             cart.clear()
@@ -73,3 +79,12 @@ def order_create(request):
 #     weasyprint.HTML(string=html).\
 #         write_pdf(response, stylesheets=[weasyprint.CSS(settings.STATIC_ROOT + 'css/pdf.css')])
 #     return response
+
+def admin_order_pdf(request, order_id):
+    order = get_object_or_404(Order, id=order_id)
+    params = {
+        'order':order,
+        'request':request
+    }
+
+    return Render.render('orders/order/pdf.html', params)

@@ -17,6 +17,8 @@ from django.urls import reverse_lazy
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+import pymysql
+pymysql.install_as_MySQLdb()
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -86,9 +88,16 @@ WSGI_APPLICATION = 'shop.wsgi.application'
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # }
+    'default':{
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'clarita',
+        'USER': 'root',
+        'PASSWORD': 'fasca',
+        'HOST': '179.43.127.65',
     }
 }
 
@@ -124,7 +133,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 
@@ -161,3 +170,7 @@ ADMINS = [('Oscar Vogel', 'oscar@ferreteriaavenida.com.ar')]
 REDIS_HOST = '192.168.0.200'
 REDIS_PORT = 6379
 REDIS_DB = 0
+
+USE_REDIS = True
+
+BASE_URL = "http://127.0.0.1:8000/"

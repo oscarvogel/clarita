@@ -7,21 +7,36 @@
         <div class="col-lg-12">
             <form id="register-form" action="." method="post" role="form" >{% csrf_token %}
                 <div class="form-group">
-                    <input type="text" name="{{user_form.username.name}}" id="username" tabindex="1" class="form-control" placeholder="Usuario" value="">
+                    <input type="text" name="{{user_form.username.name}}" id="username" tabindex="1" class="form-control"
+                           placeholder="Usuario" value="{%if user_form.username.value%}{{user_form.username.value}}{%else%}{{''}}{%endif%}" required>
+                    <div class="invalid-feedback">
+                        {{user_form.username.errors}}
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="email" name="{{user_form.email.name}}" id="email" tabindex="1" class="form-control" placeholder="Direccion de Email" value="">
+                    <input type="email" name="{{user_form.email.name}}" id="email" tabindex="1" class="form-control"
+                           placeholder="Direccion de Email"
+                           value="{%if user_form.email.value%}{{user_form.email.value}}{%else%}{{''}}{%endif%}" required>
+                    <div class="invalid-feedback">
+                        {{user_form.email.errors}}
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="{{user_form.password.name}}" id="password" tabindex="2" class="form-control" placeholder="Contraseña">
+                    <input type="password" name="{{user_form.password.name}}" id="password" tabindex="2" class="form-control" placeholder="Contraseña" required>
+                    <div class="invalid-feedback">
+                        {{user_form.password.errors}}
+                    </div>
                 </div>
                 <div class="form-group">
-                    <input type="password" name="{{user_form.password2.name}}" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirmar Contraseña">
+                    <input type="password" name="{{user_form.password2.name}}" id="confirm-password" tabindex="2" class="form-control" placeholder="Confirmar Contraseña" required>
+                    <div class="invalid-feedback">
+                        {{user_form.password2.errors}}
+                    </div>
                 </div>
                 <div class="form-group">
                     <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Registrarse ahora">
+                        <div class="col-sm-12">
+                            <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-success" value="Registrarse ahora">
                         </div>
                     </div>
                 </div>
