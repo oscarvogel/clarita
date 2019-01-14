@@ -1,5 +1,6 @@
 from django.contrib.admin.views.decorators import staff_member_required
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 
 # Create your views here.
@@ -17,7 +18,7 @@ def lista_productos(request, slug_categoria=None):
     categoria = None
     busqueda = False
     categorias = Categoria.objects.all()
-    productos = Producto.objects.filter(disponible=True)
+    #productos = Producto.objects.filter(disponible=True).exclude(url_imagen='')
     destacados = Producto.objects.filter(destacado=True)[:10]
     ofertas = Producto.objects.filter(descuento__gte = 1)[:10]
     try:
@@ -39,7 +40,7 @@ def lista_productos(request, slug_categoria=None):
         else:
             productos = Producto.objects.filter()
 
-    productos = productos.random(150)
+    productos = productos.exclude(url_imagen='').random(150)
     page = request.GET.get('page', 1)
     paginator = Paginator(productos, 8)
     try:

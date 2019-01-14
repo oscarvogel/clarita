@@ -40,7 +40,7 @@ def order_create(request):
             # clear the cart
             send_mail(
                 'Se ha producido una venta',
-                'Un cliente ha comprado algo en la web podes modificarla aca {0}admin/orders/order/{1}/change/'.format(
+                'Un cliente ha comprado algo en la web podes modificarla aca {0}admin/orders/order/{1}/pdf/'.format(
                     settings.BASE_URL, order.id
                 ),
                 'info@ferreteriaavenida.com.ar',

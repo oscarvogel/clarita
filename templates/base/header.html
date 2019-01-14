@@ -6,8 +6,8 @@
     <div id="top-header">
         <div class="container">
             <ul class="header-links pull-left">
-                <li><a href="tel:{{context.telefono_empresa}}"><i class="fa fa-phone"></i> {% telefono_empresa %}</a></li>
-                <li><a href="mailto:{{context.email_empresa}}"><i class="fa fa-envelope-o"></i> {% email_empresa %}</a></li>
+                <li><a href="tel:{%telefono_empresa%}"><i class="fa fa-phone"></i> {% telefono_empresa %}</a></li>
+                <li><a href="mailto:{%email_empresa%}"><i class="fa fa-envelope-o"></i> {% email_empresa %}</a></li>
                 <li><a href="https://goo.gl/maps/StjVtSscGAA2"><i class="fa fa-map-marker"></i> {% domicilio_empresa %}</a></li>
             </ul>
             <ul class="header-links pull-right">
@@ -27,7 +27,7 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
+                        <a href="{% web_empresa %}" class="logo">
                             <img src="{{MEDIA_URL}}img/Clarita.png" alt="">
                         </a>
                     </div>
