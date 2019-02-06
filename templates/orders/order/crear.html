@@ -28,7 +28,10 @@
                                     <input class="input" type="text" name="{{form.direccion.name}}" placeholder="Direccion" required value="{{form.direccion.value}}">
                                 </div>
                                 <div class="form-group">
-                                    <input class="input" type="text" name="{{form.ciudad.name}}" placeholder="Ciudad" required value="{{form.ciudad.value}}">
+                                    {{form.ciudad}}
+                                </div>
+                                <div class="form-group">
+                                    {{form.lugarentrega}}
                                 </div>
                                 <div class="form-group">
                                     <input class="input" type="text" name="{{form.codigopostal.name}}" placeholder="Codigo Postal" value="{{form.codigopostal.value}}">

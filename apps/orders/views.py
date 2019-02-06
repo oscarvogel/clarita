@@ -3,6 +3,7 @@ import datetime
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.template.loader import render_to_string
@@ -40,11 +41,11 @@ def order_create(request):
             # clear the cart
             send_mail(
                 'Se ha producido una venta',
-                'Un cliente ha comprado algo en la web podes modificarla aca {0}admin/orders/order/{1}/pdf/'.format(
+                'Un cliente ha comprado algo en la web podes modificarla aca {0}orders/admin/order/{1}/pdf/'.format(
                     settings.BASE_URL, order.id
                 ),
-                'info@ferreteriaavenida.com.ar',
-                settings.ADMINS,
+                'ventasclarita@servinlgsm.com.ar',
+                settings.VENTAS,
                 fail_silently=False,
             )
             cart.clear()
@@ -58,15 +59,21 @@ def order_create(request):
         except:
             pass
         if ultimacompra:
-            form = OrderCreateForm(initial={'nombre':ultimacompra[0].nombre,
-                                            'apellido':ultimacompra[0].apellido,
-                                            'email':ultimacompra[0].email,
+            print("Ultima compra: {}".format(ultimacompra[0]))
+            form = OrderCreateForm(initial={'nombre':ultimacompra[0].nombre if ultimacompra[0].nombre else '',
+                                            'apellido':ultimacompra[0].apellido if ultimacompra[0].apellido else '',
+                                            'email':ultimacompra[0].email if ultimacompra[0].email else '',
                                             'direccion':ultimacompra[0].direccion,
                                             'telefono':ultimacompra[0].telefono,
                                             'codigopostal':ultimacompra[0].codigopostal,
                                             'ciudad':ultimacompra[0].ciudad})
         else:
-            form = OrderCreateForm()
+            print("No hay compra registrada")
+            form = OrderCreateForm(initial={
+                'nombre':'',
+                'apellido':'',
+                'email':''
+            })
     return render(request,'orders/order/crear.html',{'cart': cart, 'form': form})
 
 # @staff_member_required
@@ -88,3 +95,11 @@ def admin_order_pdf(request, order_id):
     }
 
     return Render.render('orders/order/pdf.html', params)
+
+@login_required
+def verpedidoscliente(request):
+    pedidos = Order.objects.filter(usuario=request.user)
+
+    return render(request, 'orders/order/pedidos_cliente.html',{
+        'pedidos':pedidos
+    })

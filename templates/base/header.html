@@ -1,7 +1,7 @@
 {% load ecommerce_tags %}
 
 <!-- HEADER -->
-<header>
+<header class="card sticky-top" id="cabecera">
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
@@ -12,7 +12,13 @@
             </ul>
             <ul class="header-links pull-right">
                 <li><a href="#"><i class="fa fa-dollar"></i> ARS</a></li>
-                <li><a href="{% url 'cuenta:dashboard' %}"><i class="fa fa-user-o"></i> Mi cuenta</a></li>
+                <li><a href="{% url 'cuenta:dashboard' %}"><i class="fa fa-user-o"></i>
+                    {% if user.is_authenticated %}
+                        Bienvenido {{user}}
+                    {% else %}
+                        Ingresar
+                    {% endif %}
+                    </a></li>
             </ul>
         </div>
     </div>
@@ -38,12 +44,6 @@
                 <div class="col-md-6">
                     <div class="header-search">
                         <form action="{% url 'shop:lista_productos' %}" method="post">{% csrf_token %}
-                            <select class="input-select" name="categoria">
-                                <option value="0">Categorias</option>
-                                {% for c in categorias %}
-                                    <option value="{{c.id}}">{{c.nombre|lower|capfirst|slice:":10"}}</option>
-                                {% endfor %}
-                            </select>
                             <input class="input" placeholder="Hace tu busqueda" name="busqueda">
                             <button type="submit" class="search-btn">Buscar</button>
                         </form>
@@ -119,6 +119,9 @@
                     </div>
                 </div>
                 <!-- /ACCOUNT -->
+            </div>
+            <div class="row">
+                <h2>Pagina web en construccion precios unicamente orientativos</h2>
             </div>
             <!-- row -->
         </div>

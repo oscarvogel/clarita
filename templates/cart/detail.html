@@ -39,7 +39,7 @@
                             {% endif %}
                         </a>
                         </td>
-                        <td>{{ product.nombre }}</td>
+                        <td><a href="{{product.get_absolute_url}}">{{ product.nombre }}</a></td>
                         <td>
                             <form action="{% url 'cart:cart_add' product.id %}" method="post" class="form-inline">
                                 {{ item.update_quantity_form.quantity }}
@@ -63,7 +63,7 @@
         </table>
         <div class="col-md-12">
             <div class="row">
-                <h6>Quienes compraron tambien compraron:</h6>
+                <h6>Tambien te puede interesar:</h6>
                 <!-- Productos recomendados -->
                 {% for p in productos_recomendados%}
                 <!-- product -->

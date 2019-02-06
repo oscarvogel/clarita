@@ -1,0 +1,64 @@
+{% extends "base/base.html" %}
+{% load thumbnail %}
+
+{%block content%}
+    <div class="container">
+    <h2>Detalle de compras</h2>
+    {% if pedidos %}
+    <div class="row">
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nº</th>
+                <th>Fecha</th>
+                <th>Domicilio de envio</th>
+                <th>Ciudad</th>
+                <th>Telefono</th>
+                <th>Total</th>
+                <th></th>
+            </tr>
+            </thead>
+        {% for p in pedidos %}
+            <tr>
+                <td>{{p.id}}</td>
+                <td>{{p.creado}}</td>
+                <td>{{p.direccion}}</td>
+                <td>{{p.ciudad}}</td>
+                <td>{{p.telefono}}</td>
+                <td>{{p.get_total_cost}}</td>
+                <td><button class="btn btn-primary" type="button" data-toggle="modal" data-target="#myModal{{p.id}}">Ver</button></td>
+            </tr>
+            <div class="modal" tabindex="-1" role="dialog" id="myModal{{p.id}}">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Detalle de articulos</h5>
+                        </div>
+                        <div class="modal-body">
+                            <div class="container-fluid">
+                            <div class="row alert alert-success">
+                                <div class="col-md-6">Producto</div>
+                                <div class="col-md-2">Cantidad</div>
+                                <div class="col-md-4">Precio</div>
+                            </div>
+                            {% for item in p.items.all %}
+                                <div class="row">
+                                    <div class="col-md-6">{{item.producto}}</div>
+                                    <div class="col-md-2">{{item.cantidad}}</div>
+                                    <div class="col-md-4">{{item.precio}}</div>
+                                </div>
+                            {% endfor %}
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </table>
+    </div>
+    {% endif %}
+    </div>
+{%endblock%}

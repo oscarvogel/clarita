@@ -38,8 +38,11 @@ def cart_detail(request):
     if settings.USE_REDIS:
         r = Recommender()
         cart_products = [item['product'] for item in cart]
-        productos_recomendados = r.productos_sugeridos_para(cart_products,
-                                                  max_results=4)
+        if cart_products:
+            productos_recomendados = r.productos_sugeridos_para(cart_products,
+                                                      max_results=4)
+        else:
+            productos_recomendados = None
     else:
         productos_recomendados = None
     return render(request, 'cart/detail.html', {

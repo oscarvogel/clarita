@@ -33,10 +33,14 @@
 				<div id="product-imgs">
 					<div class="product-preview">
 						{% if producto.imagen %}
-							<img src="{{producto.imagen.url}}" alt="{{producto.nombre}}">
+							{% thumbnail producto.imagen "250x250" as im%}
+								<img src="{{im.url}}" alt="{{producto.nombre}}">
+							{% endthumbnail %}
 						{% else %}
 							{% if producto.url_imagen %}
-								<img src="{{producto.url_imagen}}" alt="{{producto.nombre}}">
+								{% thumbnail producto.url_imagen "250x250" as im%}
+									<img src="{{im.url}}" alt="{{producto.nombre}}">
+								{% endthumbnail %}
 							{% else %}
 								<img src="http://placehold.it/150x150" alt="{{producto.nombre}}">
 							{% endif %}
@@ -50,27 +54,36 @@
 			<div class="col-md-5">
 				<div class="product-details">
 					<h2 class="product-name">{{producto.nombre}}-{{producto.unidad}}</h2>
+					<!--
 					<div>
 						<a class="review-link" href="#">10 Revisiones(s) | Agrega tu revision</a>
-					</div>
+					</div>-->
 					<div>
-						<h3 class="product-price">${{producto.preciopub}}</h3>
-						<span class="product-available">{{producto.stock}} en Stock</span>
+						{% if user.is_authenticated %}
+							<h3 class="product-price">${{producto.preciopub}}</h3>
+							<span class="product-available">{{producto.stock}} en Stock</span>
+						{% endif %}
 					</div>
+					{% if user.is_authenticated %}
+						<div class="add-to-cart">
+							<form action="{% url 'cart:cart_add' producto.id %}" method="post">
+							<div class="form-group">
+								{{cart_product_form.quantity.label}}
+								{{ cart_product_form.quantity }}
+								{{cart_product_form.update}}
+							</div>
+								{% csrf_token %}
+							<div class="form-group">
+								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
+							</div>
+							</form>
+						</div>
+					{% else %}
+						<div class="add-to-cart">
+							<a href="{% url 'login'%}" class="btn btn-success">Ingrese para realizar la compra</a>
+						</div>
+					{% endif %}
 
-					<div class="add-to-cart">
-						<form action="{% url 'cart:cart_add' producto.id %}" method="post">
-						<div class="form-group">
-							{{cart_product_form.quantity.label}}
-							{{ cart_product_form.quantity }}
-							{{cart_product_form.update}}
-						</div>
-							{% csrf_token %}
-						<div class="form-group">
-							<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Agregar al carrito</button>
-						</div>
-						</form>
-					</div>
 
 					<ul class="product-links">
 						<li>Categoria:</li>
@@ -104,7 +117,7 @@
 						<!-- tab1  -->
 						<div id="tab1" class="tab-pane fade in active">
 							<div class="row">
-								<h6>Quienes compraron {{producto.nombre}} tambien compraron:</h6>
+								<h6>Tambien te puede interesar:</h6>
 								<!-- Productos recomendados -->
                                 {% for p in productos_recomendados%}
                                 <!-- product -->
@@ -112,11 +125,19 @@
                                     <div class="product">
                                         <a href="{{p.get_absolute_url}}">
                                             <div class="product-img">
-                                                {% if p.imagen %}
-                                                    <img src="{{p.imagen.url}}" alt="{{p.nombre}}">
-                                                {% else %}
-                                                    <img src="http://placehold.it/250x250" alt="{{p.nombre}}">
-                                                {% endif %}
+												{% if p.imagen %}
+													{% thumbnail p.imagen "250x250" as im%}
+														<img src="{{im.url}}" alt="{{p.nombre}}">
+													{% endthumbnail %}
+												{% else %}
+													{% if p.url_imagen %}
+														{% thumbnail p.url_imagen "250x250" as im%}
+															<img src="{{im.url}}" alt="{{p.nombre}}">
+														{% endthumbnail %}
+													{% else %}
+														<img src="http://placehold.it/150x150" alt="{{p.nombre}}">
+													{% endif %}
+												{% endif %}
                                             </div>
                                         </a>
                                         <div class="product-body">
@@ -136,182 +157,6 @@
 						</div>
 						<!-- /tab1  -->
 
-						<!-- tab3  -->
-						<div id="tab3" class="tab-pane fade in">
-							<div class="row">
-								<!-- Rating -->
-								<div class="col-md-3">
-									<div id="rating">
-										<div class="rating-avg">
-											<span>4.5</span>
-											<div class="rating-stars">
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-												<i class="fa fa-star-o"></i>
-											</div>
-										</div>
-										<ul class="rating">
-											<li>
-												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-												</div>
-												<div class="rating-progress">
-													<div style="width: 80%;"></div>
-												</div>
-												<span class="sum">3</span>
-											</li>
-											<li>
-												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="rating-progress">
-													<div style="width: 60%;"></div>
-												</div>
-												<span class="sum">2</span>
-											</li>
-											<li>
-												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="rating-progress">
-													<div></div>
-												</div>
-												<span class="sum">0</span>
-											</li>
-											<li>
-												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="rating-progress">
-													<div></div>
-												</div>
-												<span class="sum">0</span>
-											</li>
-											<li>
-												<div class="rating-stars">
-													<i class="fa fa-star"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-													<i class="fa fa-star-o"></i>
-												</div>
-												<div class="rating-progress">
-													<div></div>
-												</div>
-												<span class="sum">0</span>
-											</li>
-										</ul>
-									</div>
-								</div>
-								<!-- /Rating -->
-
-								<!-- Reviews -->
-								<div class="col-md-6">
-									<div id="reviews">
-										<ul class="reviews">
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-											<li>
-												<div class="review-heading">
-													<h5 class="name">John</h5>
-													<p class="date">27 DEC 2018, 8:0 PM</p>
-													<div class="review-rating">
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star"></i>
-														<i class="fa fa-star-o empty"></i>
-													</div>
-												</div>
-												<div class="review-body">
-													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-												</div>
-											</li>
-										</ul>
-										<ul class="reviews-pagination">
-											<li class="active">1</li>
-											<li><a href="#">2</a></li>
-											<li><a href="#">3</a></li>
-											<li><a href="#">4</a></li>
-											<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
-										</ul>
-									</div>
-								</div>
-								<!-- /Reviews -->
-
-								<!-- Review Form -->
-								<div class="col-md-3">
-									<div id="review-form">
-										<form class="review-form">
-											<input class="input" type="text" placeholder="Your Name">
-											<input class="input" type="email" placeholder="Your Email">
-											<textarea class="input" placeholder="Your Review"></textarea>
-											<div class="input-rating">
-												<span>Your Rating: </span>
-												<div class="stars">
-													<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-													<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-													<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-													<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-													<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-												</div>
-											</div>
-											<button class="primary-btn">Submit</button>
-										</form>
-									</div>
-								</div>
-								<!-- /Review Form -->
-							</div>
-						</div>
-						<!-- /tab3  -->
 					</div>
 					<!-- /product tab content  -->
 				</div>

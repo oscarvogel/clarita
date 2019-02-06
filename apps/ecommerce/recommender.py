@@ -49,9 +49,8 @@ class Recommender(object):
             r.delete(tmp_key)
         ids_productos_sugeridos = [int(id) for id in sugerencias]
         # Obtener productos y ordenar por orden de aparición.
-        productos_sugeridos = list(Producto.objects.filter(id__in=ids_productos_sugeridos))
-        productos_sugeridos.sort(key=lambda x:
-        ids_productos_sugeridos.index(x.id))
+        productos_sugeridos = list(Producto.objects.filter(id__in=ids_productos_sugeridos, disponible=True))
+        productos_sugeridos.sort(key=lambda x:ids_productos_sugeridos.index(x.id))
         return productos_sugeridos
 
     def clear_purchases(self):

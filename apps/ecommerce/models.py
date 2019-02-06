@@ -43,6 +43,7 @@ class Producto(models.Model):
     modificado = models.DateTimeField(auto_now=True)
     destacado = models.BooleanField(blank=True, default=False)
     descuento = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    codigobarra = models.CharField(max_length=14, default='')
 
     class Meta:
         ordering = ('nombre',)

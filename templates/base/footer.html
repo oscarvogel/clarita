@@ -24,9 +24,9 @@
                     <div class="footer">
                         <h3 class="footer-title">Categorias</h3>
                         <ul class="footer-links">
-                            {% for c in categorias %}
-                                <li><a href="#">{{c.nombre|lower|capfirst}}</a></li>
-                            {% endfor %}
+                            {%if categoria %}
+
+                            {%endif%}
                         </ul>
                     </div>
                 </div>

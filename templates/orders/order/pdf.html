@@ -62,7 +62,13 @@
             {{ order.nombre }} {{ order.apellido }}<br>
             {{ order.email }}<br>
             {{ order.direccion }}<br>
-            {{ order.codigopostal }}, {{ order.ciudad }}
+            {{ order.codigopostal }}, {{ order.ciudad }}<br>
+            Lugar de entrega:
+            {% if order.lugarentrega == 'A' %}
+            <strong>Retira en el supermercado</strong>
+            {% else %}
+            <strong>Llevar hasta la casa del cliente</strong>
+            {% endif %}
         </p>
         <h3>Items Comprados</h3>
         <table class="table">
