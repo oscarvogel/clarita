@@ -26,7 +26,7 @@ pypiwin32==223
 python-slugify==1.2.6
 pytz==2018.7
 pywin32==224
-PyYAML==3.13
+PyYAML==5.1
 redis==2.10.6
 selenium==3.141.0
 six==1.11.0
