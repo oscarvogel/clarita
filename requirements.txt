@@ -25,7 +25,7 @@ Pyphen==0.9.5
 pypiwin32==223
 python-slugify==1.2.6
 pytz==2018.7
-pywin32==224
+pywin32==301
 PyYAML==3.13
 redis==2.10.6
 selenium==3.141.0
